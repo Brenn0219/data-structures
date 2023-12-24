@@ -1,6 +1,6 @@
 # Dominando Algoritmos com C
 
-Este repositório contém implementações em C de diversas estruturas de dados e algoritmos, baseadas no livro "Mastering Algorithms with C". Antes de explorar as implementações específicas, é crucial entender alguns conceitos fundamentais que são amplamente utilizados nas soluções apresentadas.
+Este repositório contém implementações em C de diversas estruturas de dados e algoritmos, baseadas no livro [Mastering Algorithms with C](https://everythingcomputerscience.com/books/Mastering-Algorithms-with-C-Loudon.pdf). Antes de explorar as implementações específicas, é crucial entender alguns conceitos fundamentais que são amplamente utilizados nas soluções apresentadas.
 
 ## Algoritmos e Estruturas de Dados
 
@@ -36,7 +36,7 @@ Embora não sejam estruturas de dados em si, a manipulação de ponteiros e o us
 
 ## Estruturas
 
-* Listas encadeadas (simples, duplas e circulares).
+* [Listas encadeadas](src/list/README.md) (simples, duplas e circulares).
 * Pilhas e filas.
 * Conjuntos e a matemática fundamental associada.
 * Tabelas hash encadeadas e de endereçamento aberto.
