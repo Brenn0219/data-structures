@@ -39,10 +39,10 @@ void list_destroy(List *list);
 /// @complexity O(1)
 int list_ins_next(List *list, ListElmt *element, const void *data);
 
-/// @brief 
+/// @brief Remove um elemento da lista
 /// @param list lista encadeada
-/// @param element sentinela que ajuda remover o dado na lista. Se element e NULL, o novo elemento e inserido na cabeca da lista 
-/// @param data dado a ser removido na lista. E removido logo apos element. Na volta, data aponta para os dados armazenados no elemento que foi removido
+/// @param element sentinela que ajuda remover o dado na lista. Se element e NULL, o novo elemento e removido na cabeca da lista 
+/// @param data dado a ser removido na lista. E removido logo apos element
 /// @return 0 se a insercao de elemento e bem sucedida, do contrario, -1
 /// @complexity O(1)
 int list_rem_next(List *list, ListElmt *element, void **data);
