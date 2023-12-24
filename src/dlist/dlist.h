@@ -74,7 +74,10 @@ int dlist_remove(DList *list, DListElmt *element, void **data);
 // Macro que avalia os dados armazenados no elemento de uma lista duplamente encadeada especificada por elemento
 #define dlist_data(element) ((element)->data)
 
-// Macro que avalia o elemento de uma lista duplamente encadeada precedente ao elemento especificado por element
+// Macro que avalia o elemento de uma lista duplamente encadeada seguindo o elemento especificado por element
 #define dlist_next(element) ((element)->next)
+
+// Macro que avalia o elemento de uma lista duplamente encadeada precede o elemento especificado por element
+#define dlist_prev(element) ((element)->prev)
 
 #endif
