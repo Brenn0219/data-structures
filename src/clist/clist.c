@@ -78,27 +78,18 @@ int clist_ins_prev(CList *list, CListElmt *element, const void *data) {
 }
 
 int clist_remove(CList *list, CListElmt *element, void **data) {
-    CListElmt *old_element;
-
-    if (clist_size(list) == 0)
+    if (element == NULL || dlist_size(list) == 0)
         return -1;
 
-    *data = element->next->data;
+    *data = element->data;
 
-    if (element == NULL)
-        element = list->head;
+    if (element == list->head) 
+        list->head = element->next;
 
-    if (clist_size(list) > 1) {
-        old_element = element->next;
-        element->next = old_element->next;
-        old_element->next->prev = element;
-    } else 
-        old_element = element;
-    
-    old_element->next = NULL;
-    old_element->prev = NULL;
+    element->prev->next = element->next;
+    element->next->prev = element->prev;
 
-    free(old_element);
+    free(element);
     list->size--;
 
     return 0;

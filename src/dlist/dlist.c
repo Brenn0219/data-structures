@@ -85,19 +85,18 @@ int dlist_ins_prev(DList *list, DListElmt *element, const void *data) {
 }
 
 int dlist_remove(DList *list, DListElmt *element, void **data) {
-    if (dlist_size(list) == 0)
+    if (element == NULL || dlist_size(list) == 0)
         return -1;
 
-    if (element == NULL) {
-        element = list->head;
+    *data = element->data;
+
+    if (element == list->head) {
         list->head = element->next;
 
         if (list->head == NULL)
             list->tail = NULL;
         else 
             element->next->prev = NULL;
-        
-        element->next = NULL;
     } else {
         element->prev->next = element->next;
 
@@ -105,9 +104,6 @@ int dlist_remove(DList *list, DListElmt *element, void **data) {
             list->tail = element->prev;
         else 
             element->next->prev = element->prev;
-
-        element->next = NULL;
-        element->prev = NULL;
     }
 
     free(element);
