@@ -9,8 +9,8 @@ void clist_init(CList *list, void (*destroy) (void *data)) {
 void clist_destroy(CList *list) {
     void *data;
 
-    while (list_size(list) > 0)  {
-        if (list_rem_next(list, NULL, (void **) &data) == 0 && list->destroy != NULL)
+    while (clist_size(list) > 0)  {
+        if (clist_remove(list, NULL, (void **) &data) == 0 && list->destroy != NULL)
             list->destroy(data);
     }
     
@@ -20,7 +20,7 @@ void clist_destroy(CList *list) {
 int clist_ins_next(CList *list, CListElmt *element, const void *data) {
     CListElmt *new_element;
 
-    if (element == NULL && dlist_size(list) != 0)
+    if (element == NULL && clist_size(list) != 0)
         return -1;
 
     if (new_element = (CListElmt *) malloc(sizeof(CListElmt)) == NULL)
@@ -33,6 +33,9 @@ int clist_ins_next(CList *list, CListElmt *element, const void *data) {
         new_element->prev = new_element;
         list->head = new_element;
     } else {
+        if (element == NULL)
+            element = list->head;
+
         new_element->next = element->next;
         element->next->prev = new_element;
         new_element->prev = element;
@@ -55,11 +58,14 @@ int clist_ins_prev(CList *list, CListElmt *element, const void *data) {
 
     new_element->data = (void *) data;
 
-    if (dlist_size(list) == 0) {
+    if (clist_size(list) == 0) {
         new_element->next = new_element;
         new_element->prev = new_element;
         list->head = new_element;
     } else {
+        if (element == NULL)
+            element = list->head;
+
         new_element->prev = element->prev;
         element->prev->next = new_element;
         new_element->next = element;
@@ -72,26 +78,27 @@ int clist_ins_prev(CList *list, CListElmt *element, const void *data) {
 }
 
 int clist_remove(CList *list, CListElmt *element, void **data) {
-    if (dlist_size(list) == 0)
+    CListElmt *old_element;
+
+    if (clist_size(list) == 0)
         return -1;
 
-    if (element == NULL) {
+    *data = element->next->data;
+
+    if (element == NULL)
         element = list->head;
-        list->head = element->next;
-        list->head->prev = element->prev;
-        element->prev->next = list->head;
 
-        element->next = NULL;
-        element->prev = NULL;
-    } else {
-        element->prev->next = element->next;
-        element->next->prev = element->prev;
+    if (clist_size(list) > 1) {
+        old_element = element->next;
+        element->next = old_element->next;
+        old_element->next->prev = element;
+    } else 
+        old_element = element;
+    
+    old_element->next = NULL;
+    old_element->prev = NULL;
 
-        element->next = NULL;
-        element->prev = NULL;
-    }
-
-    free(element);
+    free(old_element);
     list->size--;
 
     return 0;
