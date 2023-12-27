@@ -37,7 +37,7 @@ Embora não sejam estruturas de dados em si, a manipulação de ponteiros e o us
 ## Estruturas
 
 * [Listas encadeadas](src/list/README.md) ([simples](src/list/list.c), [duplas](src/dlist/dlist.c) e [circulares](src/clist/clist.c)).
-* [Pilhas](src/stack/stack.c) e Filas.
+* [Pilhas](src/stack/stack.c) e [Filas](src/queue/README.md).
 * Conjuntos e a matemática fundamental associada.
 * Tabelas hash encadeadas e de endereçamento aberto.
 * Árvores binárias e AVL, com métodos de travessia.
