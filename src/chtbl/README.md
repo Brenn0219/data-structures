@@ -18,3 +18,7 @@ Uma tabela hash encadeada consiste fundamentalmente em um array de listas encade
 são colocados todos os elementos com hash relacionados a uma posição específica no array. Para inserir um elemento, primeiro passamos sua chave para uma função hash em um processo chamado hash da chave. Isso nos diz em qual partição o
 elemento pertence. Em seguida, inserimos o elemento no início da lista apropriada. Para procurar ou remover um
 elemento, fazemos hash de sua chave novamente para encontrar seu partição e, em seguida, percorremos a lista apropriada até encontrarmos o elemento que procuramos. Como cada bucket é uma lista encadeada, uma tabela hash encadeada não está limitada a um número fixo de elementos. No entanto, o desempenho será prejudicado se a tabela ficar muito cheia.
+
+### Tabela Hashing de Endereçamento Aberto
+
+Nas tabelas de endereçamento aberto, todos os elementos residem na própria tabela, o que é importante para aplicações que requerem um tamanho fixo. No entanto, para lidar com colisões, essas tabelas utilizam sondagem, onde posições são probedas até encontrar uma vaga para inserção. O número de sondagens depende do fator de carga da tabela e da uniformidade na distribuição dos elementos. A eficácia do processo também está vinculada à escolha de uma função de hash adequada, sendo que para a sondagem linear, uma função h(k,i) = (h'(k)+i) mod m é frequentemente utilizada, mas pode resultar em clustering primário.
