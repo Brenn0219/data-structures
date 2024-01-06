@@ -254,3 +254,56 @@ int bistree_insert(BisTree *tree, const void *data) {
     int balanced = 0;
     return insert(tree, &bitree_root(tree), data, &balanced);
 }
+
+static int hide(BisTree *tree, BiTreeNode *node, const void *data) {
+    
+    int cmpval, retval;
+
+    if (bitree_is_eob(node))
+        return -1;
+
+    cmpval = tree->compare(data, ((AvlNode *) bitree_data(node))->data);
+
+    if (cmpval < 0)
+        retval = hide(tree, bitree_left(node), data);
+    else if (cmpval > 0) 
+        retval = hide(tree, bitree_right(node), data);
+    else {
+        ((AvlNode *) bitree_data(node))->hidden = 1;
+        retval = 0;
+    }
+
+    return retval;
+
+}
+
+int bistree_remove(BisTree *tree, const void *data) {
+    return hide(tree, bitree_root(tree), data);
+}
+
+static int lookup(BisTree *tree, BiTreeNode *node, void **data) {
+    int cmpval, retval;
+
+    if (bitree_is_eob(node))
+        return -1;
+
+    cmpval = tree->compare(data, ((AvlNode *) bitree_data(node))->data);
+
+    if (cmpval < 0)
+        retval = lookup(tree, bitree_left(node), data);
+    else if (cmpval > 0) 
+        retval = lookup(tree, bitree_right(node), data);
+    else {
+        if (((AvlNode *) bitree_data(node))->hidden)
+            return -1;
+
+        *data = ((AvlNode *) bitree_data(node))->data;
+        retval = 0;
+    }
+
+    return retval;
+}
+
+int bistree_lookup(BisTree *tree, void **data) {
+    return lookup(tree, bitree_root(tree), data);
+}
