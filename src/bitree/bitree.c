@@ -64,7 +64,7 @@ int bitree_ins_right(BiTree *tree, BiTreeNode *node, const void *data) {
     return 0;   
 }
 
-void bitree_rem_left(BiTree *tree, BiTreeNode *node) {
+int bitree_rem_left(BiTree *tree, BiTreeNode *node) {
     BiTreeNode **position;
 
     if (bitree_size(tree) == 0)
@@ -90,7 +90,7 @@ void bitree_rem_left(BiTree *tree, BiTreeNode *node) {
     return 0;
 }
 
-void bitree_rem_right(BiTree *tree, BiTreeNode *node) {
+int bitree_rem_right(BiTree *tree, BiTreeNode *node) {
     BiTreeNode **position;
 
     if (bitree_size(tree) == 0)
