@@ -1,0 +1,7 @@
+# Filas de Prioridade
+
+Filas de prioridade são utilizadas para priorizar dados, organizando elementos de modo que o elemento de maior prioridade possa ser determinado de maneira eficiente. 
+
+Existem várias formas de implementar uma fila de prioridade, sendo uma abordagem intuitiva manter um conjunto ordenado de dados. Nesse caso, o elemento no início do conjunto ordenado possui a maior prioridade. No entanto, inserir e extrair elementos requer a reordenação do conjunto, um processo de complexidade O(n) no pior caso, onde n é o número de elementos. Portanto, uma solução mais eficiente é manter o conjunto parcialmente ordenado usando uma estrutura de dados chamada heap. No heap, o nó no topo sempre possui a maior prioridade, independentemente de como isso é definido. Além disso, a reparação do heap após a inserção e extração de dados requer apenas O(log n) de tempo.
+
+Uma maneira simples de implementar uma fila de prioridade como um heap é usar a typedef PQueue para Heap. As operações de uma fila de prioridade são idênticas às de um heap, sendo que a interface é projetada para filas de prioridade e o tipo de dado heap serve como a implementação. Cada operação de fila de prioridade é simplesmente definida como sua contraparte de heap, exceto por pqueue_peek, que não tem um equivalente em heap. Essa operação retorna apenas o elemento de maior prioridade, sem removê-lo.
