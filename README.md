@@ -41,7 +41,7 @@ Embora não sejam estruturas de dados em si, a manipulação de ponteiros e o us
 * [Conjuntos](src/set/README.md) e a matemática fundamental associada.
 * [Tabelas hash encadeadas](src/chtbl/README.md) e de [endereçamento aberto](src/ohtbl/othbl.c).
 * [Árvores binárias](src/bitree/README.md) e [AVL](src/avl/README.md), com [métodos de travessia](src/bitree/traverse.c).
-* Heaps e filas de prioridade.
+* [Heaps](src/heaps/README.md) e Filas de Prioridade.
 * Grafos e os algoritmos fundamentais de busca em largura e profundidade.
 
 ## Algoritmos
