@@ -42,7 +42,7 @@ Embora não sejam estruturas de dados em si, a manipulação de ponteiros e o us
 * [Tabelas hash encadeadas](src/chtbl/README.md) e de [endereçamento aberto](src/ohtbl/othbl.c).
 * [Árvores binárias](src/bitree/README.md) e [AVL](src/avl/README.md), com [métodos de travessia](src/bitree/traverse.c).
 * [Heaps](src/heaps/README.md) e [Filas de Prioridade](src/pqueue/README.md).
-* Grafos e os algoritmos fundamentais de busca em largura e profundidade.
+* [Grafos](src/graph/README.md) e os algoritmos fundamentais de busca em largura e profundidade.
 
 ## Algoritmos
 
