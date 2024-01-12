@@ -23,3 +23,12 @@ Formalmente, um grafo é um par G = (V, E), onde V é um conjunto de vértices e
 ### Pontos de Articulação e Pontes
 - **Pontos de Articulação:** Vértices cuja remoção desconecta o grafo ou componente. Podem ser identificados em grafos não direcionados.
 - **Pontes:** Arestas cuja remoção desconecta o grafo. Importantes em grafos não direcionados.
+
+## Métodos de Busca
+
+Buscar em um grafo significa visitar seus vértices um de cada vez em uma ordem específica. Existem dois métodos de busca importantes dos quais muitos algoritmos de grafos são derivados: busca em largura e busca em profundidade.
+
+### Busca em Largura
+A busca em largura explora um grafo visitando todos os vértices adjacentes a um vértice antes de explorar o grafo mais profundamente. Essa busca é útil em diversas aplicações, incluindo a busca por árvores de abrangência mínima e caminhos mais curtos. Para iniciar, selecionamos um vértice inicial e o marcamos como cinza. Todos os outros vértices são marcados como brancos. O vértice inicial é então colocado sozinho em uma fila. O algoritmo procede da seguinte forma: para cada vértice na fila, observamos o vértice na frente da fila e exploramos cada vértice adjacente a ele. Conforme cada vértice adjacente é explorado, sua cor será branca se ainda não foi descoberto. Nesse caso, o marcamos como cinza, indicando que foi descoberto, e o colocamos no final da fila. Se sua cor não for branca, ele já foi descoberto, e a busca prossegue para o próximo vértice adjacente. Após explorar todos os vértices adjacentes, removemos o vértice no início da fila e o marcamos como preto, indicando que terminamos com ele. Esse processo continua até que a fila esteja vazia, momento em que todos os vértices alcançáveis a partir do vértice inicial estão pretos.
+
+Além de simplesmente visitar vértices, a busca em largura pode ser usada para manter informações úteis. Por exemplo, podemos registrar o número de vértices percorridos antes de chegar a cada vértice, o que acaba sendo o caminho mais curto para cada vértice em grafos cujas arestas não são ponderadas.
