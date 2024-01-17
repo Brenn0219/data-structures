@@ -78,7 +78,7 @@ static int partition(void * list, int size, int esize, int i, int k, int (*compa
     free(pval);
     free(temp);
 
-    return 0;
+    return k;
 }
 
 int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2)) {
@@ -91,7 +91,8 @@ int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const
         if (qksort(list, size, esize, i, j, compare) < 0)
             return -1;
 
-        i = j + 1;
+        if (qksort(list, size, esize, j + 1, k, compare) < 0)
+            return -1;
     }
 
     return 0;
