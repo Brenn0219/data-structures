@@ -11,3 +11,9 @@ A classificação envolve a organização de conjuntos de elementos em uma ordem
 - **Ordenação Linear:**
    - Operam em tempo proporcional ao número de elementos, ou seja, O(n).
    - Dependem de características específicas nos dados.
+
+## Algoritmos de Classificação Abordados
+
+- **Ordenação por Inserção:**
+   - Método simples, eficiente para conjuntos pequenos.
+   - Opera in-place, organizando os elementos no próprio local de armazenamento.
