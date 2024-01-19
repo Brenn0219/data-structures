@@ -97,3 +97,67 @@ int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const
 
     return 0;
 }
+
+static int merge(void *list, int esize, int i, int j, int k, int (*compare) (const void *key1, const void *key2)) {
+    char *data = list, *join;
+    int ipos, jpos, mpos;
+
+    ipos = i;
+    jpos = j + 1;
+    mpos = 0;
+
+    if ((join = (char *) malloc(esize * (k - i + 1))) == NULL)
+        return -1;
+
+    while (ipos <= j || jpos <= k) {
+        if (ipos > j) {
+            while (jpos <= k) {
+                memcpy(&join[mpos * esize], &data[jpos * esize], esize);
+                jpos++;
+                mpos++;
+            }
+
+            continue;
+        } else if (jpos > k) {
+            while (ipos <= j) {
+                memcpy(&data[mpos * esize], &join[ipos * esize], esize);
+                ipos++;
+                mpos++;
+            }
+            
+            continue;
+        } else {
+            if (compare(&data[ipos *esize], &join[jpos * esize]) < 0) 
+                memcpy(&data[mpos * esize], &join[ipos * esize], esize);
+            else 
+                memcpy(&data[mpos * esize], &join[jpos * esize], esize);
+
+            ipos++;
+            mpos++;
+        }
+    }
+
+    memcpy(&data[i * esize], join, esize * ((k - i) + 1));
+    free(join);
+
+    return 0;
+}
+
+int mgsort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2)) {
+    int j;
+
+    if (i < k) {
+        j = (int) ((i + k - 1) / 2);
+
+        if (mgsort(list, size, esize, i, j, compare) != 0)
+            return -1;
+
+        if (mgsort(list, size, esize, j + 1, k, compare) != 0)
+            return -1;
+
+        if (merge(list, esize, i, j, k, compare) != 0)
+            return -1;
+    }
+
+    return 0;
+}

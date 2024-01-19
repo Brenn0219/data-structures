@@ -22,6 +22,17 @@ int issort(void *list, int size, int esize, int (*compare) (const void *key1, co
 /// @param compare funcao de comparacao entre dois dados. Retorna 1 se key1 > key2, 0 key1 == key2 e -1 se key1 < key2
 /// @return 0 se a classsificacao for bem sucedida, do contrario -1
 /// @complexity O(n lg n)
-int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2));
+int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2)); 
+
+/// @brief Ordenacao por MergeSort
+/// @param list array de dados
+/// @param size quantidade total dos dados
+/// @param esize tamanho do dado
+/// @param i define a parte que esta sendo classificada a esquerda, inicialmente deve ser 0
+/// @param k define a parte que esta sendo classificada a direita, inicialmente deve ser size - 1
+/// @param compare funcao de comparacao entre dois dados. Retorna 1 se key1 > key2, 0 key1 == key2 e -1 se key1 < key2
+/// @return 0 se a classsificacao for bem sucedida, do contrario -1
+/// @complexity O(n lg n)
+int mgsort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2));
 
 #endif
