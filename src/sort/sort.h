@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <memory.h>
+#include <math.h>
 
 /// @brief Ordenacao por Insercao
 /// @param list array de dados
@@ -42,5 +43,14 @@ int mgsort(void * list, int size, int esize, int i, int k, int (*compare) (const
 /// @return 0 se a classsificacao for bem sucedida, do contrario -1
 /// @complexity O(n lg n)
 int ctsort(int *data, int size, int k);
+
+/// @brief Ordenacao Radixsort
+/// @param data array de dados
+/// @param size tamanho do array
+/// @param p numero de posicoes de digitos em cada inteiro
+/// @param k raiz 
+/// @return 0 se a classsificacao for bem sucedida, do contrario -1
+/// @complexity O(n²)
+int rxsort(int *data, int size, int p, int k);
 
 #endif

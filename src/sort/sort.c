@@ -192,3 +192,41 @@ int ctsort(int *data, int size, int k) {
 
     return 0;
 }
+
+int rxsort(int *data, int size, int p, int k) {
+    int *counts, *temp, pval, index;
+
+    if ((counts = (int *) malloc(k * sizeof(int))) == NULL)
+        return -1;
+    
+    if ((temp = (int *) malloc(size * sizeof(int))) == NULL)
+        return -1;
+
+    for (int i = 0; i < p; i++) {
+        for (int j = 0; j < k; j++) 
+            counts[j] = 0;
+
+        pval = (int) pow((double) k, (double) i);
+
+        for (int j = 0; j < size; j++) {
+            index = (int) (data[j] / pval) % k;
+            counts[index] = counts[index] + 1; 
+        }
+
+        for (int j = 1; j < k; j++) 
+            counts[j] = counts[j] + counts[j - 1];
+
+        for (int j = size - 1; j >= 0; j--) {
+            index = (int) (data[j] / pval) % k;
+            temp[counts[index] - 1] = data[j];
+            counts[index] = counts[index] - 1;
+        }
+    }
+
+    memcpy(data, temp, size * sizeof(int));
+
+    free(counts);
+    free(temp);
+
+    return 0;
+}
