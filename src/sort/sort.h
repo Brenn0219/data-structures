@@ -35,4 +35,12 @@ int qksort(void * list, int size, int esize, int i, int k, int (*compare) (const
 /// @complexity O(n lg n)
 int mgsort(void * list, int size, int esize, int i, int k, int (*compare) (const void *key1, const void *key2));
 
+/// @brief Ordenacao por Contagem
+/// @param data array de dados
+/// @param size tamanho do array
+/// @param k numero maximo de inteiros em data
+/// @return 0 se a classsificacao for bem sucedida, do contrario -1
+/// @complexity O(n lg n)
+int ctsort(int *data, int size, int k);
+
 #endif

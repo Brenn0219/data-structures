@@ -161,3 +161,34 @@ int mgsort(void * list, int size, int esize, int i, int k, int (*compare) (const
 
     return 0;
 }
+
+int ctsort(int *data, int size, int k) {
+    int *counts, *temp, i;
+
+    if ((counts = (int *) malloc(k * sizeof(int))) == NULL)
+        return -1;
+    
+    if ((temp = (int *) malloc(size * sizeof(int))) == NULL)
+        return -1;
+
+    for (i = 0; i < k; i++) 
+        counts[i] = 0;
+    
+    for (i = 0; i < size; i++)
+        counts[data[i]] = counts[data[i]] + 1;
+
+    for (i = 1; i < size; i++)
+        counts[i] = counts[i] + counts[i - 1];
+
+    for (i = size - 1; i >= 0; i--) {
+        temp[counts[data[i]] - 1] = data[i];
+        counts[data[i]] = counts[data[i]] - 1;
+    }
+
+    memcpy(data, temp, size * sizeof(int));
+
+    free(temp);
+    free(counts);
+
+    return 0;
+}
