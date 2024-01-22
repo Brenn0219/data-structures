@@ -46,7 +46,7 @@ Embora não sejam estruturas de dados em si, a manipulação de ponteiros e o us
 
 ## Algoritmos
 
-* [Algoritmos de ordenação](src/sort/README.md) ([inserção](src/sort/sort.c), [quicksort](src/sort/sort.c), [merge sort](src/sort/sort.c), [counting sort](src/sort/sort.c), [radix sort](src/sort/sort.c)) e busca binária.
+* [Algoritmos de ordenação](src/sort/README.md) ([inserção](src/sort/sort.c), [quicksort](src/sort/sort.c), [merge sort](src/sort/sort.c), [counting sort](src/sort/sort.c), [radix sort](src/sort/sort.c)) e [busca binária](src/sort/search.c).
 * Métodos numéricos, incluindo interpolação polinomial, estimação de mínimos quadrados e solução de equações por método de Newton.
 * Algoritmos de compressão de dados, como codificação Huffman e LZ77.
 * Algoritmos de criptografia DES e RSA.
