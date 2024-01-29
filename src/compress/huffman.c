@@ -1,6 +1,7 @@
 #pragma once
 
 #include <limits.h>
+#include <netinet/in.h>
 
 #include "bit.h"
 #include "bitree.h"
@@ -146,3 +147,29 @@ static int build_tree(int *freqs, BiTree **tree) {
     return 0;
 }
 
+/// @brief construir a tabela de simbolso de huffman
+/// @param node nodo de um simbolo da arvore de simbolo de huffman
+/// @param code codigo do simbolo
+/// @param size tamanho do simbolo
+/// @param table tabela
+static void build_table(BiTreeNode *node, unsigned short code, unsigned char size, HuffCode *table) {
+    if (!bitree_is_eob(node)) {
+        // mover para a esquerda e anexar 0 ao codigo atual
+        if (!bitree_is_eob(bitree_left(node)))
+            build_table(bitree_left(node), code << 1, size + 1, table);
+
+        // mover para direita e anexar 1 ao codigo atual
+        if (!bitree_is_eob(bitree_right(node)))
+            build_table(bitree_right(node), code << 1 | 0x001, size + 1, table);
+
+        if (bitree_is_eob(bitree_left(node)) && bitree_is_eob(bitree_right(node))) {
+            // assegurar que o codigo atual esta em formato big-endian
+            code = htons(code);
+
+            // designar codigo atual para o simbolo no nodo de folha
+            table[((HuffNode *) bitree_data(node))->symbol].used = 1;
+            table[((HuffNode *) bitree_data(node))->symbol].code = code;
+            table[((HuffNode *) bitree_data(node))->symbol].size = size;
+        }
+    }
+}
