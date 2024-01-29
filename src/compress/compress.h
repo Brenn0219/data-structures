@@ -38,4 +38,12 @@ typedef struct HuffCode {
 /// @complexity O(n) 
 int huffman_compress(const unsigned char *original, unsigned char **compressed, int size);
 
+/// @brief Utiliza a descodificacao Huffman para descomprimir um buffer de dados especificados por compressed, que contem os bytes size
+/// @param original buffer de dados originais
+/// @param compressed dados comprimidos
+/// @param size tamanho dos bytes
+/// @return numero de bytes nos dados descomprimidos se a descompressao for bem sucedida, do contrario -1
+/// @complexity O(n) 
+int huffman_ucompress(const unsigned char *compressed, unsigned char **original);
+
 #endif

@@ -266,3 +266,83 @@ int huffman_compress(const unsigned char *original, unsigned char **compressed, 
         return ((opos - 1) / 8) + 1;
     }
 }
+
+int huffman_ucompress(const unsigned char *compressed, unsigned char **original) {
+    BiTree *tree;
+    BiTreeNode *node;
+    int freqs[UCHAR_MAX + 1], hsize, size, ipos, opos, state;
+    unsigned char *orig, *temp;
+    
+    // inicialmente nao ha buffer de dados originais
+    *original = orig = NULL;
+
+    // obter informacao de cabecalho do buffer de dados comprimidos
+    hsize = sizeof(int) + (UCHAR_MAX + 1);
+    memcpy(&size, compressed, sizeof(int));
+
+    for (int i = 0; i <= UCHAR_MAX; i++)
+        freqs[i] = compressed[sizeof(int) + i];
+
+    // reconstruir a arvore de Huffman usando os dados previamente comprimidos
+    if (build_tree(freqs, &tree) != 0)
+        return -1;
+    
+    // descomprimir dados
+    ipos = hsize * 8;
+    opos = 0;
+    node = bitree_root(tree);
+
+    while (opos < size) {
+        // pegar o proximo bit nos dados comprimidos
+        state = bit_get(compressed, ipos++);
+
+        if (state == 0) {
+            // mover para a esquerda
+            if (bitree_is_eob(node) ||  bitree_is_eob(bitree_left(node))) {
+                destroy_tree(tree);
+                return -1;
+            }
+
+            node = bitree_left(node);
+        } else {
+            // mover para a direita
+            if (bitree_is_eob(node) ||  bitree_is_eob(bitree_right(node))) {
+                destroy_tree(tree);
+                return -1;
+            }
+
+            node = bitree_right(node);
+        }
+
+        if (bitree_is_eob(bitree_left(node)) && bitree_is_eob(bitree_right(node))) {
+            // gravar o simbolo no nodo de folha para o buffer dos dados originais
+            if (opos > 0) {
+                if ((temp = (unsigned char *) realloc(orig, opos + 1)) == NULL) {
+                    destroy_tree(tree);
+                    free(orig);
+                    return -1;
+                }
+
+                orig = temp;
+            } else {
+                if ((orig = (unsigned char *) malloc(1)) == NULL) {
+                    destroy_tree(tree);
+                    return -1;
+                }
+            }
+
+            orig[opos++] = ((HuffNode *) bitree_data(node))->symbol;
+
+            // voltar para o topo da arvore
+            node = bitree_root(tree);
+        }
+    }
+    
+    destroy_tree(tree);
+
+    // apontar para o buffer dos dados originais
+    *original = orig;
+
+    // retornar o número de bytes nos dados originais
+    return opos;
+}
