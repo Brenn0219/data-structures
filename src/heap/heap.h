@@ -37,7 +37,7 @@ int heap_insert(Heap *heap, const void *data);
 /// @param heap heap
 /// @param data ponteiro para o dado armazenado no nodo que foi extraido
 /// @complexity O(lg n)
-void heap_extract(Heap *heap, void **data);
+int heap_extract(Heap *heap, void **data);
 
 /// @brief Macro que avalia o numero de nodos no heap especificado por heap
 #define heap_size(heap) ((heap)->size)

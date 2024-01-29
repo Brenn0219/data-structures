@@ -48,7 +48,7 @@ int heap_insert(Heap *heap, const void *data) {
     return 0;
 }
 
-void heap_extract(Heap *heap, void **data) {
+int heap_extract(Heap *heap, void **data) {
     void *save, *temp;
     int ipos = 0, lpos, rpos, mpos;
 
