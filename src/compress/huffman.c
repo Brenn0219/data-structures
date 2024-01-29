@@ -1,7 +1,6 @@
 #pragma once
 
 #include <limits.h>
-#include <netinet/in.h>
 
 #include "bit.h"
 #include "bitree.h"
@@ -152,7 +151,7 @@ static int build_tree(int *freqs, BiTree **tree) {
 /// @param code codigo do simbolo
 /// @param size tamanho do simbolo
 /// @param table tabela
-static void build_table(BiTreeNode *node, unsigned short code, unsigned char size, HuffCode *table) {
+static void build_table(BiTreeNode *node, unsigned short code, unsigned int size, HuffCode *table) {
     if (!bitree_is_eob(node)) {
         // mover para a esquerda e anexar 0 ao codigo atual
         if (!bitree_is_eob(bitree_left(node)))
@@ -171,5 +170,99 @@ static void build_table(BiTreeNode *node, unsigned short code, unsigned char siz
             table[((HuffNode *) bitree_data(node))->symbol].code = code;
             table[((HuffNode *) bitree_data(node))->symbol].size = size;
         }
+    }
+}
+
+int huffman_compress(const unsigned char *original, unsigned char **compressed, int size) {
+    BiTree *tree;
+    HuffCode table[UCHAR_MAX + 1];
+    int freqs[UCHAR_MAX + 1], max, scale, hsize, ipos, opos, cpos;
+    unsigned char *comp, temp;
+
+    // inicialmente nao ha buffer de dados comprimidos
+    *compressed = NULL;
+
+    // obter frequencia de cada simbolo nos dados originais
+    for (int i = 0; i <= UCHAR_MAX; i++) 
+        freqs[i] = 0;
+    
+    ipos = 0;
+
+    if (size > 0) {
+        while (ipos < size) 
+            freqs[original[ipos++]]++;
+    }
+
+    // graduar frequencias para caberem em um byte
+    max = UCHAR_MAX;
+
+    for (int i = 0; i <= UCHAR_MAX; i++) {
+        if (freqs[i] > max)
+            max = freqs[i];
+    }
+
+    for (int i = 0; i <= UCHAR_MAX; i++) {
+        scale = (int) (freqs[i] / ((double) max / (double) UCHAR_MAX));
+
+        if (scale == 0 && freqs[i] != 0)
+            freqs[i] = 1;
+        else 
+            freqs[i] = scale;
+    }
+
+    // construir a arvore de huffman e a tabela de codigos para os dados
+    if (build_tree(freqs, &tree) != 0)
+        return -1;
+
+    for (int i = 0; i <= UCHAR_MAX; i++) 
+        memset(&table[i], 0, sizeof(HuffCode));
+    
+    build_table(bitree_root(tree), 0x0000, 0, table);
+    destroy_tree(tree);
+
+    // escrever informacao de cabecalho
+    hsize = sizeof(int) + (UCHAR_MAX + 1);
+
+    if ((comp = (unsigned char *) malloc(hsize)) == NULL)
+        return -1;
+
+    memcpy(comp, &size, sizeof(int));
+
+    for (int i = 0; i <= UCHAR_MAX; i++) {
+        comp[sizeof(int) + i] = (unsigned char) freqs[i];
+
+        // comprimir dados
+        ipos = 0;
+        opos = hsize * 8;
+
+        while (ipos < size) {
+            // tomar o proximo simbolo nos dados originais
+            i = original[ipos];
+
+            // gravar codigo do simbolo para o buffer dos dados comprimidos
+            for (int j = 0; j < table[i].size; i++) {
+                if (opos % 8 == 0) {
+                    // alocar outro bytes para o buffer de dados comprimidos
+                    if ((temp = (unsigned char *) realloc(comp, (opos / 8 + 1))) == NULL) {
+                        free(comp);
+                        return -1;
+                    }
+
+                    comp = temp;
+                }
+
+                cpos = (sizeof(short) * 8) - table[i].size + j;
+                bit_set(comp, opos, bit_get((unsigned char *) &table[i].code, cpos));
+                opos++;
+            }
+
+            ipos++;
+        }
+        
+        // apontar para o buffer dos dados comprimidos
+        *compressed = comp;
+
+        // retornar o numero de bytes nos dados comprimidos
+        return ((opos - 1) / 8) + 1;
     }
 }

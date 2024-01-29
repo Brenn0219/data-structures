@@ -3,7 +3,7 @@
 
 #include "bitree.h"
 
-/// @brief Definir uma estrutura para os nodos das arvores Huffu nman
+/// @brief Definir uma estrutura para os nodos das arvores Huffuman
 typedef struct HuffNode {
     unsigned char symbol;
     int freq;
@@ -29,5 +29,13 @@ typedef struct HuffCode {
 
 // Define o numero de bits para as fichas de frases de LZ77
 #define LZ77_PHRASE_BITS (LZ77_TYPE_BITS + LZ77_WINOFF_BITS + LZ77_NEXT_BITS + LZ77_BUFLEN_BITS)
+
+/// @brief Utiliza a codificacao Huffman para comprimir um buffer de dados especificados por original, que contem os bytes size
+/// @param original buffer de dados
+/// @param compressed dados comprimidos
+/// @param size tamanho dos bytes
+/// @return numero de bytes nos dados comprimidos se a compressao for bem sucedida, do contrario -1
+/// @complexity O(n) 
+int huffman_compress(const unsigned char *original, unsigned char **compressed, int size);
 
 #endif
